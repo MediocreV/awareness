@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Awareness Challenge — Live Leaderboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a14;
+            --bg-card: rgba(255,255,255,0.03);
+            --bg-card-hover: rgba(255,255,255,0.06);
+            --text-primary: #f0f0f0;
+            --text-secondary: #888;
+            --text-muted: #555;
+            --border: rgba(255,255,255,0.06);
+            --gold: #ffd700;
+            --silver: #c0c0c0;
+            --bronze: #cd7f32;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(ellipse at 20% 50%, rgba(120, 80, 255, 0.06) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 20%, rgba(255, 100, 50, 0.04) 0%, transparent 50%),
+                        radial-gradient(ellipse at 50% 80%, rgba(50, 200, 150, 0.04) 0%, transparent 50%);
+            animation: bgShift 20s ease-in-out infinite alternate;
+            z-index: 0;
+        }
+
+        @keyframes bgShift {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-2%, -2%) rotate(3deg); }
+        }
+
+        .app { position: relative; z-index: 1; padding: 32px 20px 60px; max-width: 1100px; margin: 0 auto; }
+
+        /* ===== HEADER ===== */
+        .header { text-align: center; margin-bottom: 40px; }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #f9d423, #ff4e50, #f9d423);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s ease-in-out infinite;
+            letter-spacing: -1px;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% center; }
+            50% { background-position: 200% center; }
+        }
+
+        .header .subtitle {
+            font-size: 1rem; color: var(--text-secondary); margin-top: 6px; font-weight: 300;
+        }
+
+        .header .last-updated {
+            font-size: 0.8rem; color: var(--text-muted); margin-top: 10px;
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+
+        .header .last-updated .pulse {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: #4ade80;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4); }
+            50% { opacity: 0.6; box-shadow: 0 0 0 6px rgba(74, 222, 128, 0); }
+        }
+
+        /* ===== TAB SWITCHER ===== */
+        .tabs {
+            display: flex; justify-content: center; gap: 8px;
+            margin-bottom: 32px;
+        }
+
+        .tab-btn {
+            padding: 10px 24px; border-radius: 50px;
+            border: 1px solid var(--border);
+            background: transparent; color: var(--text-secondary);
+            font-family: inherit; font-size: 0.9rem; font-weight: 500;
+            cursor: pointer; transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: rgba(255,255,255,0.1); color: var(--text-primary);
+            border-color: rgba(255,255,255,0.2);
+            box-shadow: 0 0 20px rgba(255,255,255,0.05);
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: rgba(255,255,255,0.04); color: var(--text-primary);
+        }
+
+        /* ===== TEAM LEADERBOARD ===== */
+        .team-leaderboard { display: flex; flex-direction: column; gap: 16px; }
+
+        .team-row {
+            display: flex; align-items: center; gap: 16px;
+            padding: 20px 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-row:hover {
+            background: var(--bg-card-hover);
+            transform: translateX(4px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .team-row.expanded {
+            background: var(--bg-card-hover);
+            border-color: rgba(255,255,255,0.1);
+        }
+
+        .team-rank {
+            font-size: 1.6rem; font-weight: 800;
+            width: 44px; text-align: center; flex-shrink: 0;
+        }
+
+        .team-rank.gold { color: var(--gold); text-shadow: 0 0 15px rgba(255, 215, 0, 0.3); }
+        .team-rank.silver { color: var(--silver); }
+        .team-rank.bronze { color: var(--bronze); }
+
+        .team-emoji { font-size: 2.2rem; flex-shrink: 0; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3)); }
+
+        .team-details { flex: 1; min-width: 0; }
+
+        .team-name { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.3px; }
+
+        .team-meta { font-size: 0.82rem; color: var(--text-secondary); margin-top: 2px; }
+
+        .team-bar-container {
+            flex: 1; max-width: 280px; height: 8px;
+            background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden;
+        }
+
+        .team-bar {
+            height: 100%; border-radius: 4px;
+            transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+            width: 0;
+        }
+
+        .team-score {
+            font-size: 1.5rem; font-weight: 800; min-width: 60px;
+            text-align: right; flex-shrink: 0;
+        }
+
+        .team-score span { font-size: 0.75rem; font-weight: 400; color: var(--text-secondary); margin-left: 2px; }
+
+        .expand-icon {
+            font-size: 0.9rem; color: var(--text-muted); transition: transform 0.3s;
+            flex-shrink: 0;
+        }
+
+        .team-row.expanded .expand-icon { transform: rotate(180deg); }
+
+        /* Members panel */
+        .members-panel {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .members-panel.open { max-height: 800px; opacity: 1; }
+
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 8px;
+            padding: 0 24px 16px 84px;
+        }
+
+        .member-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 8px 14px; border-radius: 10px;
+            background: rgba(255,255,255,0.03);
+            font-size: 0.88rem; transition: background 0.2s;
+        }
+
+        .member-item:hover { background: rgba(255,255,255,0.07); }
+
+        .member-name { color: var(--text-primary); font-weight: 400; }
+
+        .member-pts {
+            font-weight: 600; font-size: 0.82rem;
+            padding: 2px 10px; border-radius: 20px;
+        }
+
+        /* ===== INDIVIDUAL LEADERBOARD ===== */
+        .individual-leaderboard { display: flex; flex-direction: column; gap: 6px; }
+
+        .individual-row {
+            display: flex; align-items: center; gap: 14px;
+            padding: 12px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            transition: all 0.2s;
+        }
+
+        .individual-row:hover {
+            background: var(--bg-card-hover);
+            transform: translateX(3px);
+        }
+
+        .ind-rank {
+            font-size: 1rem; font-weight: 700; width: 36px; text-align: center;
+            flex-shrink: 0;
+        }
+
+        .ind-rank.gold { color: var(--gold); }
+        .ind-rank.silver { color: var(--silver); }
+        .ind-rank.bronze { color: var(--bronze); }
+
+        .ind-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.9rem; flex-shrink: 0;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .ind-info { flex: 1; }
+
+        .ind-name { font-size: 0.95rem; font-weight: 500; }
+
+        .ind-team { font-size: 0.78rem; color: var(--text-secondary); }
+
+        .ind-score { font-size: 1.15rem; font-weight: 700; min-width: 40px; text-align: right; }
+
+        /* ===== TEAM COLORS ===== */
+        .color-kangaroos  { --tc: #ffb347; }
+        .color-koalas     { --tc: #b8a9ff; }
+        .color-flyingfoxes{ --tc: #64c8ff; }
+        .color-dingoes    { --tc: #ff7b7b; }
+        .color-sharks     { --tc: #5eeabc; }
+        .color-crocs      { --tc: #ffd966; }
+
+        .team-bar   { background: var(--tc); }
+        .team-name  { color: var(--tc); }
+        .team-score { color: var(--tc); }
+        .member-pts { color: var(--tc); background: rgba(255,255,255,0.05); }
+        .ind-avatar { background: var(--tc); }
+        .ind-score  { color: var(--tc); }
+
+        /* Section hidden by default */
+        .section { display: none; }
+        .section.active { display: block; animation: fadeIn 0.3s ease; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Footer */
+        .footer {
+            text-align: center; margin-top: 48px; padding-top: 24px;
+            border-top: 1px solid var(--border);
+            font-size: 0.8rem; color: var(--text-muted);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 700px) {
+            .header h1 { font-size: 1.8rem; }
+            .team-bar-container { display: none; }
+            .team-row { padding: 16px; gap: 12px; }
+            .team-emoji { font-size: 1.8rem; }
+            .members-grid { padding-left: 60px; grid-template-columns: 1fr; }
+            .tabs { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app">
+    <div class="header">
+        <h1>🏆 AWARENESS CHALLENGE</h1>
+        <div class="subtitle">Live Team Leaderboard</div>
+        <div class="last-updated">
+            <span class="pulse"></span>
+            Last updated: <span id="lastUpdated">—</span>
+        </div>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="teams">🏅 Team Standings</button>
+        <button class="tab-btn" data-tab="individuals">👤 Individual Rankings</button>
+    </div>
+
+    <div id="teams-section" class="section active">
+        <div class="team-leaderboard" id="teamLeaderboard"></div>
+    </div>
+
+    <div id="individuals-section" class="section">
+        <div class="individual-leaderboard" id="individualLeaderboard"></div>
+    </div>
+
+    <div class="footer">
+        Awareness Challenge 2026 · Refresh page after running <code>python update_leaderboard.py</code>
+    </div>
+</div>
+
+<script src="leaderboard_data.js"></script>
+<script>
+    const TEAM_COLOR_CLASS = {
+        'The Kangaroos':    'color-kangaroos',
+        'The Koalas':       'color-koalas',
+        'The Flying Foxes': 'color-flyingfoxes',
+        'The Dingoes':      'color-dingoes',
+        'The Sharks':       'color-sharks',
+        'The Crocs':        'color-crocs',
+    };
+
+    const MEDAL = { 0: '🥇', 1: '🥈', 2: '🥉' };
+
+    function rankClass(i) {
+        if (i === 0) return 'gold';
+        if (i === 1) return 'silver';
+        if (i === 2) return 'bronze';
+        return '';
+    }
+
+    function renderTeams(data) {
+        const container = document.getElementById('teamLeaderboard');
+        const maxPts = Math.max(...data.teams.map(t => t.totalPoints), 1);
+
+        container.innerHTML = data.teams.map((team, i) => {
+            const colorClass = TEAM_COLOR_CLASS[team.name] || '';
+            const barWidth = (team.totalPoints / maxPts * 100).toFixed(1);
+            const membersHTML = team.members.map(m =>
+                `<div class="member-item">
+                    <span class="member-name">${m.name}</span>
+                    <span class="member-pts">${m.points} pts</span>
+                </div>`
+            ).join('');
+
+            return `
+                <div>
+                    <div class="team-row ${colorClass}" onclick="toggleMembers(this)" data-idx="${i}">
+                        <div class="team-rank ${rankClass(i)}">${MEDAL[i] || '#' + (i + 1)}</div>
+                        <div class="team-emoji">${team.emoji}</div>
+                        <div class="team-details">
+                            <div class="team-name">${team.name}</div>
+                            <div class="team-meta">${team.members.length} members</div>
+                        </div>
+                        <div class="team-bar-container">
+                            <div class="team-bar" style="width: 0%" data-target="${barWidth}"></div>
+                        </div>
+                        <div class="team-score">${team.totalPoints}<span>pts</span></div>
+                        <div class="expand-icon">▼</div>
+                    </div>
+                    <div class="members-panel" id="members-${i}">
+                        <div class="members-grid">${membersHTML}</div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        // Animate bars
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                document.querySelectorAll('.team-bar').forEach(bar => {
+                    bar.style.width = bar.dataset.target + '%';
+                });
+            }, 100);
+        });
+    }
+
+    function toggleMembers(row) {
+        const idx = row.dataset.idx;
+        const panel = document.getElementById('members-' + idx);
+        const isOpen = panel.classList.contains('open');
+
+        // Close all
+        document.querySelectorAll('.members-panel').forEach(p => p.classList.remove('open'));
+        document.querySelectorAll('.team-row').forEach(r => r.classList.remove('expanded'));
+
+        if (!isOpen) {
+            panel.classList.add('open');
+            row.classList.add('expanded');
+        }
+    }
+
+    function renderIndividuals(data) {
+        const container = document.getElementById('individualLeaderboard');
+        const allMembers = [];
+
+        data.teams.forEach(team => {
+            team.members.forEach(m => {
+                allMembers.push({ ...m, team: team.name, emoji: team.emoji });
+            });
+        });
+
+        // Sort by points desc, then name asc
+        allMembers.sort((a, b) => b.points - a.points || a.name.localeCompare(b.name));
+
+        container.innerHTML = allMembers.map((m, i) => {
+            const colorClass = TEAM_COLOR_CLASS[m.team] || '';
+            const initial = m.name.charAt(0).toUpperCase();
+            return `
+                <div class="individual-row ${colorClass}">
+                    <div class="ind-rank ${rankClass(i)}">${MEDAL[i] || '#' + (i + 1)}</div>
+                    <div class="ind-avatar">${initial}</div>
+                    <div class="ind-info">
+                        <div class="ind-name">${m.name}</div>
+                        <div class="ind-team">${m.emoji} ${m.team}</div>
+                    </div>
+                    <div class="ind-score">${m.points}</div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById(btn.dataset.tab + '-section').classList.add('active');
+        });
+    });
+
+    // Init
+    document.getElementById('lastUpdated').textContent = LEADERBOARD_DATA.lastUpdated;
+    renderTeams(LEADERBOARD_DATA);
+    renderIndividuals(LEADERBOARD_DATA);
+</script>
+
+</body>
+</html>

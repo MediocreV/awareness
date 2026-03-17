@@ -1,0 +1,15 @@
+# Keep scripts and personal data private
+*.py
+*.csv
+*.xlsx
+tocount/
+archive/
+output/
+__pycache__/
+.gemini/
+
+# Only these files are pushed for GitHub Pages:
+# index.html
+# leaderboard.html
+# leaderboard_data.js
+# team_roster.html

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Awareness Challenge — Team Rosters</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #0f0f1a;
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 40px 20px 60px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .header h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f9d423, #ff4e50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #888;
+            font-weight: 400;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .team-card {
+            border-radius: 20px;
+            padding: 28px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .team-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        }
+
+        .team-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 20px;
+            padding: 2px;
+            background: var(--card-gradient);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .team-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .team-emoji {
+            font-size: 2.8rem;
+            line-height: 1;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+        }
+
+        .team-info h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--team-color);
+            letter-spacing: -0.3px;
+        }
+
+        .team-info .count {
+            font-size: 0.85rem;
+            color: #777;
+            font-weight: 400;
+            margin-top: 2px;
+        }
+
+        .members-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 16px;
+        }
+
+        .members-list li {
+            font-size: 0.92rem;
+            padding: 6px 10px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.04);
+            transition: background 0.2s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .members-list li:hover {
+            background: rgba(255,255,255,0.09);
+        }
+
+        .members-list li .dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--team-color);
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        /* --- Team Themes --- */
+
+        .kangaroos {
+            background: linear-gradient(145deg, rgba(255, 152, 0, 0.08), rgba(30, 20, 10, 0.9));
+            --team-color: #ffb347;
+            --card-gradient: linear-gradient(135deg, rgba(255, 152, 0, 0.5), rgba(255, 152, 0, 0.05));
+        }
+        .koalas {
+            background: linear-gradient(145deg, rgba(156, 136, 255, 0.08), rgba(20, 15, 35, 0.9));
+            --team-color: #b8a9ff;
+            --card-gradient: linear-gradient(135deg, rgba(156, 136, 255, 0.5), rgba(156, 136, 255, 0.05));
+        }
+        .flyingfoxes {
+            background: linear-gradient(145deg, rgba(100, 200, 255, 0.08), rgba(10, 20, 35, 0.9));
+            --team-color: #64c8ff;
+            --card-gradient: linear-gradient(135deg, rgba(100, 200, 255, 0.5), rgba(100, 200, 255, 0.05));
+        }
+        .dingoes {
+            background: linear-gradient(145deg, rgba(255, 100, 100, 0.08), rgba(35, 12, 12, 0.9));
+            --team-color: #ff7b7b;
+            --card-gradient: linear-gradient(135deg, rgba(255, 100, 100, 0.5), rgba(255, 100, 100, 0.05));
+        }
+        .sharks {
+            background: linear-gradient(145deg, rgba(0, 200, 150, 0.08), rgba(8, 30, 22, 0.9));
+            --team-color: #5eeabc;
+            --card-gradient: linear-gradient(135deg, rgba(0, 200, 150, 0.5), rgba(0, 200, 150, 0.05));
+        }
+        .crocs {
+            background: linear-gradient(145deg, rgba(255, 210, 80, 0.08), rgba(35, 28, 10, 0.9));
+            --team-color: #ffd966;
+            --card-gradient: linear-gradient(135deg, rgba(255, 210, 80, 0.5), rgba(255, 210, 80, 0.05));
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        @media (max-width: 700px) {
+            .header h1 { font-size: 1.8rem; }
+            .grid { grid-template-columns: 1fr; }
+            .members-list { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>🏆 THE AWARENESS CHALLENGE 🏆</h1>
+    <p>Meet Your Teams — May the Best Team Win!</p>
+</div>
+
+<div class="grid">
+
+    <!-- The Kangaroos -->
+    <div class="team-card kangaroos">
+        <div class="team-header">
+            <span class="team-emoji">🦘</span>
+            <div class="team-info">
+                <h2>The Kangaroos</h2>
+                <div class="count">12 members</div>
+            </div>
+        </div>
+        <ul class="members-list">
+            <li><span class="dot"></span>Vinit</li>
+            <li><span class="dot"></span>Arturo</li>
+            <li><span class="dot"></span>Christy</li>
+            <li><span class="dot"></span>Daniel</li>
+            <li><span class="dot"></span>Ankur</li>
+            <li><span class="dot"></span>Kripa</li>
+            <li><span class="dot"></span>Susan</li>
+            <li><span class="dot"></span>Neha</li>
+            <li><span class="dot"></span>Sajja</li>
+            <li><span class="dot"></span>Sangita</li>
+            <li><span class="dot"></span>Srirekha</li>
+            <li><span class="dot"></span>Vaibhav</li>
+        </ul>
+    </div>
+
+    <!-- The Koalas -->
+    <div class="team-card koalas">
+        <div class="team-header">
+            <span class="team-emoji">🐨</span>
+            <div class="team-info">
+                <h2>The Koalas</h2>
+                <div class="count">12 members</div>
+            </div>
+        </div>
+        <ul class="members-list">
+            <li><span class="dot"></span>Aadesh</li>
+            <li><span class="dot"></span>Anju</li>
+            <li><span class="dot"></span>Daventure</li>
+            <li><span class="dot"></span>Gurasis</li>
+            <li><span class="dot"></span>Manju</li>
+            <li><span class="dot"></span>Ramky</li>
+            <li><span class="dot"></span>Reshmi</li>
+            <li><span class="dot"></span>Shine</li>
+            <li><span class="dot"></span>Sonal</li>
+            <li><span class="dot"></span>Sumit</li>
+            <li><span class="dot"></span>Vasu</li>
+            <li><span class="dot"></span>Vedant</li>
+        </ul>
+    </div>
+
+    <!-- The Flying Foxes -->
+    <div class="team-card flyingfoxes">
+        <div class="team-header">
+            <span class="team-emoji">🦇</span>
+            <div class="team-info">
+                <h2>The Flying Foxes</h2>
+                <div class="count">11 members</div>
+            </div>
+        </div>
+        <ul class="members-list">
+            <li><span class="dot"></span>Aditya</li>
+            <li><span class="dot"></span>Ashina</li>
+            <li><span class="dot"></span>Deepak</li>
+            <li><span class="dot"></span>Deepti</li>
+            <li><span class="dot"></span>Grand</li>
+            <li><span class="dot"></span>Latha</li>
+            <li><span class="dot"></span>Olivia</li>
+            <li><span class="dot"></span>Orin</li>
+            <li><span class="dot"></span>Richaa</li>
+            <li><span class="dot"></span>Dhiraj</li>
+            <li><span class="dot"></span>61 405 266 936</li>
+        </ul>
+    </div>
+
+    <!-- The Dingoes -->
+    <div class="team-card dingoes">
+        <div class="team-header">
+            <span class="team-emoji">🐺</span>
+            <div class="team-info">
+                <h2>The Dingoes</h2>
+                <div class="count">11 members</div>
+            </div>
+        </div>
+        <ul class="members-list">
+            <li><span class="dot"></span>Hiten</li>
+            <li><span class="dot"></span>Harprett</li>
+            <li><span class="dot"></span>Kaori</li>
+            <li><span class="dot"></span>Lakshmi</li>
+            <li><span class="dot"></span>Mahesh</li>
+            <li><span class="dot"></span>Manjeet</li>
+            <li><span class="dot"></span>Meena</li>
+            <li><span class="dot"></span>Ravi</li>
+            <li><span class="dot"></span>Rojita</li>
+            <li><span class="dot"></span>Uday</li>
+            <li><span class="dot"></span>Vennila</li>
+        </ul>
+    </div>
+
+    <!-- The Sharks -->
+    <div class="team-card sharks">
+        <div class="team-header">
+            <span class="team-emoji">🦈</span>
+            <div class="team-info">
+                <h2>The Sharks</h2>
+                <div class="count">12 members</div>
+            </div>
+        </div>
+        <ul class="members-list">
+            <li><span class="dot"></span>Ashish</li>
+            <li><span class="dot"></span>Dhanyasree</li>
+            <li><span class="dot"></span>Kanak</li>
+            <li><span class="dot"></span>Lalit</li>
+            <li><span class="dot"></span>Mimi</li>
+            <li><span class="dot"></span>Nabin</li>
+            <li><span class="dot"></span>Prakash</li>
+            <li><span class="dot"></span>Roopal</li>
+            <li><span class="dot"></span>Sulochana</li>
+            <li><span class="dot"></span>Sunidhi</li>
+            <li><span class="dot"></span>Abhinandan</li>
+            <li><span class="dot"></span>Mangalam</li>
+        </ul>
+    </div>
+
+    <!-- The Crocs -->
+    <div class="team-card crocs">
+        <div class="team-header">
+            <span class="team-emoji">🐊</span>
+            <div class="team-info">
+                <h2>The Crocs</h2>
+                <div class="count">11 members</div>
+            </div>
+        </div>
+        <ul class="members-list">
+            <li><span class="dot"></span>Abhishek</li>
+            <li><span class="dot"></span>Divya</li>
+            <li><span class="dot"></span>Ewan</li>
+            <li><span class="dot"></span>Fun</li>
+            <li><span class="dot"></span>Haritha</li>
+            <li><span class="dot"></span>Nala</li>
+            <li><span class="dot"></span>Sau</li>
+            <li><span class="dot"></span>Sumi</li>
+            <li><span class="dot"></span>Vedang</li>
+            <li><span class="dot"></span>Viji</li>
+            <li><span class="dot"></span>Wini</li>
+        </ul>
+    </div>
+
+</div>
+
+<div class="footer">
+    Awareness Challenge 2026 · Teams assigned March 17
+</div>
+
+</body>
+</html>
