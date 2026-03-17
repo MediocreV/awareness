@@ -1,5 +1,5 @@
 const LEADERBOARD_DATA = {
-  "lastUpdated": "17 Mar 2026, 11:03 PM",
+  "lastUpdated": "17 Mar 2026, 11:11 PM",
   "teams": [
     {
       "name": "The Kangaroos",
@@ -15,6 +15,10 @@ const LEADERBOARD_DATA = {
         },
         {
           "name": "Sajja",
+          "points": 1
+        },
+        {
+          "name": "Vaibhav",
           "points": 1
         },
         {
@@ -47,10 +51,6 @@ const LEADERBOARD_DATA = {
         },
         {
           "name": "Susan",
-          "points": 0
-        },
-        {
-          "name": "Vaibhav",
           "points": 0
         }
       ]
@@ -168,6 +168,14 @@ const LEADERBOARD_DATA = {
           "points": 2
         },
         {
+          "name": "Lakshmi",
+          "points": 1
+        },
+        {
+          "name": "Meena",
+          "points": 1
+        },
+        {
           "name": "Harprett",
           "points": 0
         },
@@ -180,19 +188,11 @@ const LEADERBOARD_DATA = {
           "points": 0
         },
         {
-          "name": "Lakshmi",
-          "points": 0
-        },
-        {
           "name": "Mahesh",
           "points": 0
         },
         {
           "name": "Manjeet",
-          "points": 0
-        },
-        {
-          "name": "Meena",
           "points": 0
         },
         {
@@ -226,6 +226,10 @@ const LEADERBOARD_DATA = {
           "points": 1
         },
         {
+          "name": "Mimi",
+          "points": 1
+        },
+        {
           "name": "Ashish",
           "points": 0
         },
@@ -235,10 +239,6 @@ const LEADERBOARD_DATA = {
         },
         {
           "name": "Kanak",
-          "points": 0
-        },
-        {
-          "name": "Mimi",
           "points": 0
         },
         {
