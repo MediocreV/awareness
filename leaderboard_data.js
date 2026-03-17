@@ -67,7 +67,7 @@ const LEADERBOARD_DATA = {
         },
         {
           "name": "Manju",
-          "points": 1
+          "points": 2
         },
         {
           "name": "Ramky",
@@ -158,7 +158,7 @@ const LEADERBOARD_DATA = {
         },
         {
           "name": "Vaibhav",
-          "points": 0
+          "points": 1
         }
       ]
     },
@@ -291,7 +291,7 @@ const LEADERBOARD_DATA = {
         },
         {
           "name": "Lakshmi",
-          "points": 0
+          "points": 1
         },
         {
           "name": "Mahesh",
