@@ -1,116 +1,9 @@
 const LEADERBOARD_DATA = {
-  "lastUpdated": "17 Mar 2026, 10:20 PM",
+  "lastUpdated": "17 Mar 2026, 11:03 PM",
   "teams": [
-    {
-      "name": "The Crocs",
-      "emoji": "🐊",
-      "totalPoints": 12,
-      "members": [
-        {
-          "name": "Haritha",
-          "points": 2
-        },
-        {
-          "name": "Nala",
-          "points": 2
-        },
-        {
-          "name": "Vedang",
-          "points": 2
-        },
-        {
-          "name": "Viji",
-          "points": 2
-        },
-        {
-          "name": "Abhishek",
-          "points": 1
-        },
-        {
-          "name": "Divya",
-          "points": 1
-        },
-        {
-          "name": "Ewan",
-          "points": 1
-        },
-        {
-          "name": "Wini",
-          "points": 1
-        },
-        {
-          "name": "Fun",
-          "points": 0
-        },
-        {
-          "name": "Sau",
-          "points": 0
-        },
-        {
-          "name": "Sumi",
-          "points": 0
-        }
-      ]
-    },
-    {
-      "name": "The Koalas",
-      "emoji": "🐨",
-      "totalPoints": 6,
-      "members": [
-        {
-          "name": "Anju",
-          "points": 1
-        },
-        {
-          "name": "Gurasis",
-          "points": 1
-        },
-        {
-          "name": "Manju",
-          "points": 2
-        },
-        {
-          "name": "Ramky",
-          "points": 1
-        },
-        {
-          "name": "Shine",
-          "points": 1
-        },
-        {
-          "name": "Vedant",
-          "points": 1
-        },
-        {
-          "name": "Aadesh",
-          "points": 0
-        },
-        {
-          "name": "Daventure",
-          "points": 0
-        },
-        {
-          "name": "Reshmi",
-          "points": 0
-        },
-        {
-          "name": "Sonal",
-          "points": 0
-        },
-        {
-          "name": "Sumit",
-          "points": 0
-        },
-        {
-          "name": "Vasu",
-          "points": 0
-        }
-      ]
-    },
     {
       "name": "The Kangaroos",
       "emoji": "🦘",
-      "totalPoints": 5,
       "members": [
         {
           "name": "Ankur",
@@ -158,61 +51,60 @@ const LEADERBOARD_DATA = {
         },
         {
           "name": "Vaibhav",
-          "points": 1
+          "points": 0
         }
       ]
     },
     {
-      "name": "The Sharks",
-      "emoji": "🦈",
-      "totalPoints": 4,
+      "name": "The Koalas",
+      "emoji": "🐨",
       "members": [
         {
-          "name": "Lalit",
-          "points": 2
-        },
-        {
-          "name": "Abhinandan",
+          "name": "Anju",
           "points": 1
         },
         {
-          "name": "Mangalam",
+          "name": "Gurasis",
           "points": 1
         },
         {
-          "name": "Ashish",
-          "points": 0
-        },
-        {
-          "name": "Dhanyasree",
-          "points": 0
-        },
-        {
-          "name": "Kanak",
-          "points": 0
-        },
-        {
-          "name": "Mimi",
+          "name": "Manju",
           "points": 1
         },
         {
-          "name": "Nabin",
+          "name": "Ramky",
+          "points": 1
+        },
+        {
+          "name": "Shine",
+          "points": 1
+        },
+        {
+          "name": "Vedant",
+          "points": 1
+        },
+        {
+          "name": "Aadesh",
           "points": 0
         },
         {
-          "name": "Prakash",
+          "name": "Daventure",
           "points": 0
         },
         {
-          "name": "Roopal",
+          "name": "Reshmi",
           "points": 0
         },
         {
-          "name": "Sulochana",
+          "name": "Sonal",
           "points": 0
         },
         {
-          "name": "Sunidhi",
+          "name": "Sumit",
+          "points": 0
+        },
+        {
+          "name": "Vasu",
           "points": 0
         }
       ]
@@ -220,7 +112,6 @@ const LEADERBOARD_DATA = {
     {
       "name": "The Flying Foxes",
       "emoji": "🦇",
-      "totalPoints": 3,
       "members": [
         {
           "name": "Richaa",
@@ -271,7 +162,6 @@ const LEADERBOARD_DATA = {
     {
       "name": "The Dingoes",
       "emoji": "🐺",
-      "totalPoints": 2,
       "members": [
         {
           "name": "Vennila",
@@ -291,7 +181,7 @@ const LEADERBOARD_DATA = {
         },
         {
           "name": "Lakshmi",
-          "points": 1
+          "points": 0
         },
         {
           "name": "Mahesh",
@@ -303,7 +193,7 @@ const LEADERBOARD_DATA = {
         },
         {
           "name": "Meena",
-          "points": 1
+          "points": 0
         },
         {
           "name": "Ravi",
@@ -315,6 +205,110 @@ const LEADERBOARD_DATA = {
         },
         {
           "name": "Uday",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "name": "The Sharks",
+      "emoji": "🦈",
+      "members": [
+        {
+          "name": "Lalit",
+          "points": 2
+        },
+        {
+          "name": "Abhinandan",
+          "points": 1
+        },
+        {
+          "name": "Mangalam",
+          "points": 1
+        },
+        {
+          "name": "Ashish",
+          "points": 0
+        },
+        {
+          "name": "Dhanyasree",
+          "points": 0
+        },
+        {
+          "name": "Kanak",
+          "points": 0
+        },
+        {
+          "name": "Mimi",
+          "points": 0
+        },
+        {
+          "name": "Nabin",
+          "points": 0
+        },
+        {
+          "name": "Prakash",
+          "points": 0
+        },
+        {
+          "name": "Roopal",
+          "points": 0
+        },
+        {
+          "name": "Sulochana",
+          "points": 0
+        },
+        {
+          "name": "Sunidhi",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "name": "The Crocs",
+      "emoji": "🐊",
+      "members": [
+        {
+          "name": "Haritha",
+          "points": 2
+        },
+        {
+          "name": "Nala",
+          "points": 2
+        },
+        {
+          "name": "Vedang",
+          "points": 2
+        },
+        {
+          "name": "Viji",
+          "points": 2
+        },
+        {
+          "name": "Abhishek",
+          "points": 1
+        },
+        {
+          "name": "Divya",
+          "points": 1
+        },
+        {
+          "name": "Ewan",
+          "points": 1
+        },
+        {
+          "name": "Wini",
+          "points": 1
+        },
+        {
+          "name": "Fun",
+          "points": 0
+        },
+        {
+          "name": "Sau",
+          "points": 0
+        },
+        {
+          "name": "Sumi",
           "points": 0
         }
       ]
