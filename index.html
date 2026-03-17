@@ -345,11 +345,21 @@
 
     function renderTeams(data) {
         const container = document.getElementById('teamLeaderboard');
-        const maxPts = Math.max(...data.teams.map(t => t.totalPoints), 1);
+        
+        // 1. Auto-calc team totals from their members (so manual JS edits work instantly)
+        data.teams.forEach(team => {
+            team.dynamicTotal = team.members.reduce((sum, m) => sum + parseInt(m.points || 0), 0);
+        });
+
+        // 2. Sort teams by the newly calculated totals descending
+        data.teams.sort((a, b) => b.dynamicTotal - a.dynamicTotal);
+
+        // 3. Find max points for the progress bars
+        const maxPts = Math.max(...data.teams.map(t => t.dynamicTotal), 1);
 
         container.innerHTML = data.teams.map((team, i) => {
             const colorClass = TEAM_COLOR_CLASS[team.name] || '';
-            const barWidth = (team.totalPoints / maxPts * 100).toFixed(1);
+            const barWidth = (team.dynamicTotal / maxPts * 100).toFixed(1);
             const membersHTML = team.members.map(m =>
                 `<div class="member-item">
                     <span class="member-name">${m.name}</span>
@@ -369,7 +379,7 @@
                         <div class="team-bar-container">
                             <div class="team-bar" style="width: 0%" data-target="${barWidth}"></div>
                         </div>
-                        <div class="team-score">${team.totalPoints}<span>pts</span></div>
+                        <div class="team-score">${team.dynamicTotal}<span>pts</span></div>
                         <div class="expand-icon">▼</div>
                     </div>
                     <div class="members-panel" id="members-${i}">
