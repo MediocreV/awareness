@@ -1,5 +1,5 @@
 const LEADERBOARD_DATA = {
-  "lastUpdated": "17 Mar 2026, 11:16 PM",
+  "lastUpdated": "20 Mar 2026, 11:45 PM",
   "teams": [
     {
       "name": "The Kangaroos",
@@ -7,15 +7,15 @@ const LEADERBOARD_DATA = {
       "members": [
         {
           "name": "Ankur",
-          "points": 2
+          "points": 3
         },
         {
           "name": "Vinit",
-          "points": 2
+          "points": 3
         },
         {
           "name": "Sajja",
-          "points": 1
+          "points": 2
         },
         {
           "name": "Vaibhav",
@@ -61,26 +61,26 @@ const LEADERBOARD_DATA = {
       "members": [
         {
           "name": "Anju",
-          "points": 1
+          "points": 2
+        },
+        {
+          "name": "Manju",
+          "points": 2
+        },
+        {
+          "name": "Shine",
+          "points": 2
+        },
+        {
+          "name": "Vedant",
+          "points": 2
         },
         {
           "name": "Gurasis",
           "points": 1
         },
         {
-          "name": "Manju",
-          "points": 1
-        },
-        {
           "name": "Ramky",
-          "points": 1
-        },
-        {
-          "name": "Shine",
-          "points": 1
-        },
-        {
-          "name": "Vedant",
           "points": 1
         },
         {
@@ -115,10 +115,18 @@ const LEADERBOARD_DATA = {
       "members": [
         {
           "name": "Richaa",
-          "points": 2
+          "points": 3
         },
         {
           "name": "Orin",
+          "points": 2
+        },
+        {
+          "name": "Deepti",
+          "points": 1
+        },
+        {
+          "name": "Dhiraj",
           "points": 1
         },
         {
@@ -135,14 +143,6 @@ const LEADERBOARD_DATA = {
         },
         {
           "name": "Deepak",
-          "points": 0
-        },
-        {
-          "name": "Deepti",
-          "points": 0
-        },
-        {
-          "name": "Dhiraj",
           "points": 0
         },
         {
@@ -165,14 +165,14 @@ const LEADERBOARD_DATA = {
       "members": [
         {
           "name": "Vennila",
-          "points": 2
-        },
-        {
-          "name": "Lakshmi",
-          "points": 1
+          "points": 3
         },
         {
           "name": "Meena",
+          "points": 1
+        },
+        {
+          "name": "Uday",
           "points": 1
         },
         {
@@ -185,6 +185,10 @@ const LEADERBOARD_DATA = {
         },
         {
           "name": "Kaori",
+          "points": 0
+        },
+        {
+          "name": "Lakshmi",
           "points": 0
         },
         {
@@ -202,10 +206,6 @@ const LEADERBOARD_DATA = {
         {
           "name": "Rojita",
           "points": 0
-        },
-        {
-          "name": "Uday",
-          "points": 0
         }
       ]
     },
@@ -218,11 +218,11 @@ const LEADERBOARD_DATA = {
           "points": 2
         },
         {
-          "name": "Abhinandan",
-          "points": 1
+          "name": "Mangalam",
+          "points": 2
         },
         {
-          "name": "Mangalam",
+          "name": "Abhinandan",
           "points": 1
         },
         {
@@ -269,10 +269,18 @@ const LEADERBOARD_DATA = {
       "members": [
         {
           "name": "Haritha",
-          "points": 2
+          "points": 3
         },
         {
           "name": "Nala",
+          "points": 3
+        },
+        {
+          "name": "Viji",
+          "points": 3
+        },
+        {
+          "name": "Abhishek",
           "points": 2
         },
         {
@@ -280,12 +288,8 @@ const LEADERBOARD_DATA = {
           "points": 2
         },
         {
-          "name": "Viji",
+          "name": "Wini",
           "points": 2
-        },
-        {
-          "name": "Abhishek",
-          "points": 1
         },
         {
           "name": "Divya",
@@ -293,10 +297,6 @@ const LEADERBOARD_DATA = {
         },
         {
           "name": "Ewan",
-          "points": 1
-        },
-        {
-          "name": "Wini",
           "points": 1
         },
         {
