@@ -393,14 +393,22 @@ def publish():
     try:
         # Cloud Git Auth
         token = os.environ.get('GITHUB_TOKEN')
+        push_cmd = ['git', 'push']
+        
         if token:
-            try:
-                repo_url = subprocess.check_output(['git', 'config', '--get', 'remote.origin.url']).decode().strip()
-                if 'github.com' in repo_url and '@' not in repo_url:
-                    repo_url = repo_url.replace('https://', f'https://oauth2:{token}@')
-                    subprocess.run(['git', 'remote', 'set-url', 'origin', repo_url])
-            except Exception:
-                pass
+            repo_slug = os.environ.get('RENDER_GIT_REPO_SLUG')
+            if repo_slug:
+                repo_url = f"https://oauth2:{token}@github.com/{repo_slug}.git"
+                push_cmd = ['git', 'push', repo_url, 'HEAD:main']
+            else:
+                try:
+                    repo_url = subprocess.check_output(['git', 'config', '--get', 'remote.origin.url']).decode().strip()
+                    if 'github.com' in repo_url and '@' not in repo_url:
+                        repo_url = repo_url.replace('https://', f'https://oauth2:{token}@')
+                    push_cmd = ['git', 'push', repo_url, 'HEAD:main']
+                except Exception:
+                    pass
+                    
             # Set minimum identity so cloud servers don't complain
             subprocess.run(['git', 'config', 'user.name', 'Awareness Admin Bot'])
             subprocess.run(['git', 'config', 'user.email', 'admin-bot@awareness.local'])
@@ -418,11 +426,15 @@ def publish():
             capture_output=True, text=True
         )
 
-        # Push regardless (there may be previous unpushed commits)
-        push_result = subprocess.run(['git', 'push'], capture_output=True, text=True)
+        # Push using the constructed command
+        push_result = subprocess.run(push_cmd, capture_output=True, text=True)
 
         if push_result.returncode != 0:
-            return jsonify({'error': f'Push failed: {push_result.stderr}'}), 500
+            # Mask the token in the error message if it exists
+            err_msg = push_result.stderr or push_result.stdout
+            if token:
+                err_msg = err_msg.replace(token, '***TOKEN***')
+            return jsonify({'error': f'Push failed: {err_msg}'}), 500
 
         if commit_result.returncode != 0 and 'nothing to commit' in (commit_result.stdout + commit_result.stderr):
             return jsonify({'success': True, 'message': 'Already up to date — no new changes to publish.'})
