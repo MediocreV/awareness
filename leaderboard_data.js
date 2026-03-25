@@ -1,25 +1,13 @@
 const LEADERBOARD_DATA = {
-  "lastUpdated": "25 Mar 2026, 04:50 PM",
+  "lastUpdated": "25 Mar 2026, 04:55 PM",
   "teams": [
     {
       "name": "The Kangaroos",
       "emoji": "🦘",
       "members": [
         {
-          "name": "Vinit",
-          "points": 9
-        },
-        {
           "name": "Ankur",
-          "points": 7
-        },
-        {
-          "name": "Vaibhav",
-          "points": 5
-        },
-        {
-          "name": "Sajja",
-          "points": 2
+          "points": 0
         },
         {
           "name": "Arturo",
@@ -42,6 +30,10 @@ const LEADERBOARD_DATA = {
           "points": 0
         },
         {
+          "name": "Sajja",
+          "points": 0
+        },
+        {
           "name": "Sangita",
           "points": 0
         },
@@ -52,6 +44,14 @@ const LEADERBOARD_DATA = {
         {
           "name": "Susan",
           "points": 0
+        },
+        {
+          "name": "Vaibhav",
+          "points": 0
+        },
+        {
+          "name": "Vinit",
+          "points": 0
         }
       ]
     },
@@ -60,31 +60,11 @@ const LEADERBOARD_DATA = {
       "emoji": "🐨",
       "members": [
         {
-          "name": "Shine",
-          "points": 6
+          "name": "Aadesh",
+          "points": 0
         },
         {
           "name": "Anju",
-          "points": 3
-        },
-        {
-          "name": "Manju",
-          "points": 3
-        },
-        {
-          "name": "Vedant",
-          "points": 2
-        },
-        {
-          "name": "Gurasis",
-          "points": 1
-        },
-        {
-          "name": "Ramky",
-          "points": 1
-        },
-        {
-          "name": "Aadesh",
           "points": 0
         },
         {
@@ -92,7 +72,23 @@ const LEADERBOARD_DATA = {
           "points": 0
         },
         {
+          "name": "Gurasis",
+          "points": 0
+        },
+        {
+          "name": "Manju",
+          "points": 0
+        },
+        {
+          "name": "Ramky",
+          "points": 0
+        },
+        {
           "name": "Reshmi",
+          "points": 0
+        },
+        {
+          "name": "Shine",
           "points": 0
         },
         {
@@ -106,6 +102,10 @@ const LEADERBOARD_DATA = {
         {
           "name": "Vasu",
           "points": 0
+        },
+        {
+          "name": "Vedant",
+          "points": 0
         }
       ]
     },
@@ -113,22 +113,6 @@ const LEADERBOARD_DATA = {
       "name": "The Flying Foxes",
       "emoji": "🦇",
       "members": [
-        {
-          "name": "Orin",
-          "points": 8
-        },
-        {
-          "name": "Richaa",
-          "points": 7
-        },
-        {
-          "name": "Deepti",
-          "points": 5
-        },
-        {
-          "name": "Dhiraj",
-          "points": 4
-        },
         {
           "name": "61 405 266 936",
           "points": 0
@@ -146,6 +130,14 @@ const LEADERBOARD_DATA = {
           "points": 0
         },
         {
+          "name": "Deepti",
+          "points": 0
+        },
+        {
+          "name": "Dhiraj",
+          "points": 0
+        },
+        {
           "name": "Grand",
           "points": 0
         },
@@ -156,6 +148,14 @@ const LEADERBOARD_DATA = {
         {
           "name": "Olivia",
           "points": 0
+        },
+        {
+          "name": "Orin",
+          "points": 0
+        },
+        {
+          "name": "Richaa",
+          "points": 0
         }
       ]
     },
@@ -163,22 +163,6 @@ const LEADERBOARD_DATA = {
       "name": "The Dingoes",
       "emoji": "🐺",
       "members": [
-        {
-          "name": "Vennila",
-          "points": 7
-        },
-        {
-          "name": "Meena",
-          "points": 3
-        },
-        {
-          "name": "Uday",
-          "points": 3
-        },
-        {
-          "name": "Lakshmi",
-          "points": 1
-        },
         {
           "name": "Harprett",
           "points": 0
@@ -192,11 +176,19 @@ const LEADERBOARD_DATA = {
           "points": 0
         },
         {
+          "name": "Lakshmi",
+          "points": 0
+        },
+        {
           "name": "Mahesh",
           "points": 0
         },
         {
           "name": "Manjeet",
+          "points": 0
+        },
+        {
+          "name": "Meena",
           "points": 0
         },
         {
@@ -206,6 +198,14 @@ const LEADERBOARD_DATA = {
         {
           "name": "Rojita",
           "points": 0
+        },
+        {
+          "name": "Uday",
+          "points": 0
+        },
+        {
+          "name": "Vennila",
+          "points": 0
         }
       ]
     },
@@ -214,20 +214,8 @@ const LEADERBOARD_DATA = {
       "emoji": "🦈",
       "members": [
         {
-          "name": "Lalit",
-          "points": 2
-        },
-        {
-          "name": "Mangalam",
-          "points": 2
-        },
-        {
-          "name": "Mimi",
-          "points": 2
-        },
-        {
           "name": "Abhinandan",
-          "points": 1
+          "points": 0
         },
         {
           "name": "Ashish",
@@ -239,6 +227,18 @@ const LEADERBOARD_DATA = {
         },
         {
           "name": "Kanak",
+          "points": 0
+        },
+        {
+          "name": "Lalit",
+          "points": 0
+        },
+        {
+          "name": "Mangalam",
+          "points": 0
+        },
+        {
+          "name": "Mimi",
           "points": 0
         },
         {
@@ -268,39 +268,27 @@ const LEADERBOARD_DATA = {
       "emoji": "🐊",
       "members": [
         {
-          "name": "Nala",
-          "points": 10
-        },
-        {
-          "name": "Haritha",
-          "points": 8
-        },
-        {
-          "name": "Viji",
-          "points": 7
-        },
-        {
-          "name": "Wini",
-          "points": 5
-        },
-        {
           "name": "Abhishek",
-          "points": 2
-        },
-        {
-          "name": "Vedang",
-          "points": 2
+          "points": 0
         },
         {
           "name": "Divya",
-          "points": 1
+          "points": 0
         },
         {
           "name": "Ewan",
-          "points": 1
+          "points": 0
         },
         {
           "name": "Fun",
+          "points": 0
+        },
+        {
+          "name": "Haritha",
+          "points": 0
+        },
+        {
+          "name": "Nala",
           "points": 0
         },
         {
@@ -309,6 +297,18 @@ const LEADERBOARD_DATA = {
         },
         {
           "name": "Sumi",
+          "points": 0
+        },
+        {
+          "name": "Vedang",
+          "points": 0
+        },
+        {
+          "name": "Viji",
+          "points": 0
+        },
+        {
+          "name": "Wini",
           "points": 0
         }
       ]
