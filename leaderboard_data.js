@@ -1,5 +1,5 @@
 const LEADERBOARD_DATA = {
-  "lastUpdated": "21 Mar 2026, 12:53 AM",
+  "lastUpdated": "25 Mar 2026, 04:50 PM",
   "teams": [
     {
       "name": "The Kangaroos",
@@ -7,7 +7,7 @@ const LEADERBOARD_DATA = {
       "members": [
         {
           "name": "Vinit",
-          "points": 8
+          "points": 9
         },
         {
           "name": "Ankur",
@@ -127,7 +127,7 @@ const LEADERBOARD_DATA = {
         },
         {
           "name": "Dhiraj",
-          "points": 2
+          "points": 4
         },
         {
           "name": "61 405 266 936",
@@ -269,7 +269,7 @@ const LEADERBOARD_DATA = {
       "members": [
         {
           "name": "Nala",
-          "points": 9
+          "points": 10
         },
         {
           "name": "Haritha",
@@ -277,7 +277,7 @@ const LEADERBOARD_DATA = {
         },
         {
           "name": "Viji",
-          "points": 6
+          "points": 7
         },
         {
           "name": "Wini",
