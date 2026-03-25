@@ -1,16 +1,20 @@
 # Keep scripts and personal data private
 *.py
+!admin.py
 *.csv
+!master_list.csv
 *.xlsx
 tocount/
 archive/
 output/
 __pycache__/
 .gemini/
-admin.html
 
-# Only these files are pushed for GitHub Pages:
+# Only these files are pushed for GitHub Pages/Admin:
 # index.html
 # leaderboard.html
 # leaderboard_data.js
 # team_roster.html
+# admin.py
+# admin.html
+# master_list.csv

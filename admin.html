@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin — Awareness Challenge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a14;
+            --bg-card: rgba(255,255,255,0.03);
+            --bg-card-hover: rgba(255,255,255,0.06);
+            --text-primary: #f0f0f0;
+            --text-secondary: #888;
+            --text-muted: #555;
+            --border: rgba(255,255,255,0.06);
+            --accent: #a78bfa;
+            --accent-glow: rgba(167, 139, 250, 0.15);
+            --green: #4ade80;
+            --green-glow: rgba(74, 222, 128, 0.15);
+            --red: #f87171;
+            --red-glow: rgba(248, 113, 113, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(ellipse at 20% 50%, rgba(167, 139, 250, 0.06) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 20%, rgba(74, 222, 128, 0.04) 0%, transparent 50%),
+                        radial-gradient(ellipse at 50% 80%, rgba(248, 113, 113, 0.03) 0%, transparent 50%);
+            animation: bgShift 20s ease-in-out infinite alternate;
+            z-index: 0;
+        }
+
+        @keyframes bgShift {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-2%, -2%) rotate(3deg); }
+        }
+
+        .app { position: relative; z-index: 1; padding: 24px 16px 60px; max-width: 960px; margin: 0 auto; }
+
+        /* Header */
+        .header { text-align: center; margin-bottom: 28px; }
+        .header h1 {
+            font-size: 2rem; font-weight: 900;
+            background: linear-gradient(135deg, #a78bfa, #60a5fa, #a78bfa);
+            background-size: 200% auto;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        .header .subtitle { font-size: 0.9rem; color: var(--text-secondary); margin-top: 4px; font-weight: 300; }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% center; }
+            50% { background-position: 200% center; }
+        }
+
+        /* Password bar */
+        .password-bar {
+            display: flex; align-items: center; gap: 12px;
+            justify-content: center; margin-bottom: 24px;
+        }
+        .password-bar label { font-size: 0.85rem; color: var(--text-secondary); }
+        .password-bar input {
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+            border-radius: 8px; padding: 8px 14px; color: var(--text-primary);
+            font-family: inherit; font-size: 0.9rem; width: 200px;
+            outline: none; transition: border-color 0.3s;
+        }
+        .password-bar input:focus { border-color: var(--accent); }
+        .pw-status { font-size: 0.8rem; padding: 4px 12px; border-radius: 20px; display: none; }
+        .pw-status.ok { display: inline; background: var(--green-glow); color: var(--green); }
+        .pw-status.fail { display: inline; background: var(--red-glow); color: var(--red); }
+
+        /* Section cards */
+        .card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 16px; padding: 20px; margin-bottom: 16px;
+            transition: all 0.3s;
+        }
+        .card:hover { border-color: rgba(255,255,255,0.1); }
+        .card h2 {
+            font-size: 1.1rem; font-weight: 700; margin-bottom: 14px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .card h2 .icon { font-size: 1.3rem; }
+
+        /* Team colors */
+        .tc-kangaroos  { --tc: #ffb347; }
+        .tc-koalas     { --tc: #b8a9ff; }
+        .tc-flyingfoxes{ --tc: #64c8ff; }
+        .tc-dingoes    { --tc: #ff7b7b; }
+        .tc-sharks     { --tc: #5eeabc; }
+        .tc-crocs      { --tc: #ffd966; }
+
+        /* ===== TALLY SECTION (primary) ===== */
+        .team-section {
+            margin-bottom: 16px;
+        }
+        .team-header {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 0; cursor: pointer; user-select: none;
+        }
+        .team-header .emoji { font-size: 1.5rem; }
+        .team-header .name { font-size: 1rem; font-weight: 700; color: var(--tc); }
+        .team-header .total { font-size: 0.85rem; color: var(--text-secondary); margin-left: auto; }
+        .team-header .toggle { font-size: 0.75rem; color: var(--text-muted); transition: transform 0.3s; }
+        .team-header .toggle.open { transform: rotate(180deg); }
+
+        .add-member-btn {
+            font-size: 0.75rem; font-weight: 600; font-family: inherit;
+            padding: 4px 10px; border-radius: 8px;
+            border: 1px solid rgba(167, 139, 250, 0.3);
+            background: rgba(167, 139, 250, 0.08);
+            color: var(--accent); cursor: pointer;
+            transition: all 0.2s; margin-left: 8px;
+        }
+        .add-member-btn:hover {
+            background: rgba(167, 139, 250, 0.2);
+            border-color: var(--accent);
+        }
+
+        .add-member-form {
+            display: flex; gap: 6px; align-items: center;
+            padding: 8px 0; animation: fadeIn 0.2s ease;
+        }
+        .add-member-form input {
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+            border-radius: 8px; padding: 6px 12px; color: var(--text-primary);
+            font-family: inherit; font-size: 0.85rem; width: 180px;
+            outline: none;
+        }
+        .add-member-form input:focus { border-color: var(--accent); }
+        .add-member-form .submit-btn {
+            padding: 6px 14px; border-radius: 8px; border: none;
+            background: var(--accent); color: #111;
+            font-family: inherit; font-size: 0.82rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .add-member-form .cancel-btn {
+            padding: 6px 10px; border-radius: 8px;
+            border: 1px solid var(--border); background: transparent;
+            color: var(--text-secondary); font-family: inherit;
+            font-size: 0.82rem; cursor: pointer;
+        }
+
+        .team-members {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 6px;
+            padding: 4px 0 12px;
+        }
+
+        .member-row {
+            display: flex; align-items: center; gap: 10px;
+            padding: 8px 12px; border-radius: 10px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+        .member-row:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: var(--border);
+        }
+
+        .member-name { flex: 1; font-size: 0.88rem; font-weight: 400; }
+        .member-pts {
+            font-size: 0.8rem; font-weight: 600; color: var(--tc);
+            min-width: 30px; text-align: right;
+        }
+
+        .plus-btn {
+            width: 32px; height: 32px; border-radius: 8px;
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            background: rgba(74, 222, 128, 0.08);
+            color: var(--green);
+            font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .plus-btn:hover {
+            background: rgba(74, 222, 128, 0.2);
+            border-color: var(--green);
+            transform: scale(1.1);
+        }
+        .plus-btn:active { transform: scale(0.9); }
+        .plus-btn.clicked {
+            background: var(--green);
+            color: #111;
+        }
+
+        /* ===== TEAM BONUS GRID ===== */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 10px;
+        }
+        .team-card {
+            display: flex; align-items: center; gap: 10px;
+            padding: 14px 16px; border-radius: 12px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            cursor: pointer; transition: all 0.3s;
+            user-select: none;
+        }
+        .team-card:hover {
+            background: rgba(255,255,255,0.07);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        .team-card:active { transform: scale(0.97); }
+        .team-card .tc-emoji { font-size: 1.6rem; }
+        .team-card .tc-info { flex: 1; }
+        .team-card .tc-name { font-size: 0.9rem; font-weight: 600; }
+        .team-card .tc-count { font-size: 0.75rem; color: var(--text-secondary); }
+        .team-card .tc-badge {
+            font-size: 0.8rem; font-weight: 700;
+            padding: 4px 10px; border-radius: 20px;
+            background: var(--green-glow); color: var(--green);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 10px 22px; border-radius: 10px;
+            border: none; cursor: pointer; font-family: inherit;
+            font-size: 0.88rem; font-weight: 600;
+            transition: all 0.3s; user-select: none;
+        }
+        .btn:hover { transform: translateY(-1px); }
+        .btn:active { transform: scale(0.97); }
+        .btn-green { background: var(--green); color: #111; }
+        .btn-green:hover { box-shadow: 0 4px 20px var(--green-glow); }
+        .btn-red { background: transparent; color: var(--red); border: 1px solid rgba(248, 113, 113, 0.3); }
+        .btn-red:hover { background: var(--red-glow); }
+        .btn-accent { background: var(--accent); color: #111; }
+
+        .action-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+
+        /* Upload zone (secondary) */
+        .upload-zone {
+            border: 2px dashed rgba(167, 139, 250, 0.25);
+            border-radius: 12px; padding: 28px 16px;
+            text-align: center; cursor: pointer;
+            transition: all 0.3s; position: relative;
+        }
+        .upload-zone:hover, .upload-zone.dragover {
+            border-color: var(--accent);
+            background: var(--accent-glow);
+        }
+        .upload-zone .upload-icon { font-size: 2rem; margin-bottom: 6px; }
+        .upload-zone .upload-text { font-size: 0.88rem; color: var(--text-secondary); }
+        .upload-zone .upload-text strong { color: var(--accent); }
+        .upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+        .upload-zone .filename { margin-top: 6px; font-size: 0.82rem; color: var(--accent); display: none; }
+        .upload-btn { margin-top: 12px; display: none; }
+
+        /* Result box */
+        .result-box {
+            margin-top: 12px; padding: 14px; border-radius: 10px;
+            background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+            font-size: 0.82rem; line-height: 1.6;
+            display: none; max-height: 250px; overflow-y: auto;
+        }
+        .result-box.visible { display: block; animation: fadeIn 0.3s ease; }
+        .result-box .success { color: var(--green); }
+        .result-box .error { color: var(--red); }
+        .result-box .detail { color: var(--text-secondary); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Standings mini-view */
+        .standings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 8px;
+        }
+        .standing-item {
+            display: flex; align-items: center; gap: 8px;
+            padding: 10px 14px; border-radius: 10px;
+            background: rgba(255,255,255,0.03);
+        }
+        .standing-item .st-emoji { font-size: 1.3rem; }
+        .standing-item .st-name { flex: 1; font-size: 0.88rem; font-weight: 500; }
+        .standing-item .st-pts { font-size: 1rem; font-weight: 700; }
+        .standing-item .st-pts span { font-size: 0.7rem; font-weight: 400; color: var(--text-secondary); }
+
+        /* Toast */
+        .toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 6px; }
+        .toast {
+            padding: 10px 18px; border-radius: 10px;
+            font-size: 0.85rem; font-weight: 500;
+            animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        }
+        .toast-success { background: #166534; color: #bbf7d0; }
+        .toast-error { background: #7f1d1d; color: #fecaca; }
+        .toast-info { background: #1e3a5f; color: #bfdbfe; }
+        @keyframes toastIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes toastOut { to { opacity: 0; transform: translateX(20px); } }
+
+        /* Confirm dialog */
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 999; }
+        .overlay.visible { display: flex; }
+        .dialog { background: #1a1a2e; border: 1px solid var(--border); border-radius: 16px; padding: 28px; max-width: 380px; text-align: center; }
+        .dialog h3 { font-size: 1.15rem; margin-bottom: 8px; }
+        .dialog p { font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 20px; }
+        .dialog .btn-row { display: flex; gap: 10px; justify-content: center; }
+
+        /* Collapsible */
+        .collapsible-content { overflow: hidden; transition: max-height 0.3s ease; }
+        .collapsible-content.collapsed { max-height: 0 !important; }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.5rem; }
+            .team-grid, .standings-grid { grid-template-columns: 1fr; }
+            .team-members { grid-template-columns: 1fr 1fr; }
+            .password-bar { flex-direction: column; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app">
+    <div class="header">
+        <h1>⚙️ ADMIN DASHBOARD</h1>
+        <div class="subtitle">Awareness Challenge — Score Manager</div>
+    </div>
+
+    <!-- Password -->
+    <div class="password-bar">
+        <label>🔒 Password:</label>
+        <input type="password" id="passwordInput" placeholder="Enter admin password" autocomplete="off">
+        <span class="pw-status" id="pwStatus"></span>
+    </div>
+
+    <!-- ===== PRIMARY: Per-Person Tally ===== -->
+    <div class="card">
+        <h2><span class="icon">📋</span> Tally Scores — Click +1 for each person</h2>
+        <div id="tallyContainer"></div>
+    </div>
+
+    <!-- ===== Team Bonus ===== -->
+    <div class="card">
+        <h2><span class="icon">⭐</span> Team Bonus (+1 to all members)</h2>
+        <div class="team-grid" id="teamGrid"></div>
+        <div class="result-box" id="bonusResult"></div>
+    </div>
+
+    <!-- ===== Actions ===== -->
+    <div class="card">
+        <h2><span class="icon">🚀</span> Actions</h2>
+        <div class="action-row">
+            <button class="btn btn-green" onclick="doPublish()">📡 Publish to Live Site</button>
+            <button class="btn btn-red" onclick="showResetConfirm()">🔄 Weekly Reset</button>
+        </div>
+        <div class="result-box" id="actionResult"></div>
+    </div>
+
+    <!-- ===== Upload (secondary) ===== -->
+    <div class="card">
+        <h2><span class="icon">📤</span> Bulk Upload (advanced)</h2>
+        <div class="upload-zone" id="uploadZone">
+            <input type="file" id="fileInput" accept=".txt,.csv">
+            <div class="upload-icon">📄</div>
+            <div class="upload-text"><strong>Click to browse</strong> or drag & drop a score file</div>
+            <div class="filename" id="fileName"></div>
+        </div>
+        <div class="upload-btn" id="uploadBtnWrap">
+            <button class="btn btn-accent" id="uploadBtn" onclick="doUpload()">📊 Tally & Add Points</button>
+        </div>
+        <div class="result-box" id="uploadResult"></div>
+    </div>
+
+    <!-- ===== Current Standings ===== -->
+    <div class="card">
+        <h2><span class="icon">📊</span> Current Standings</h2>
+        <div class="standings-grid" id="standingsGrid"></div>
+    </div>
+</div>
+
+<!-- Reset Confirmation Dialog -->
+<div class="overlay" id="resetOverlay">
+    <div class="dialog">
+        <h3>⚠️ Reset All Points?</h3>
+        <p>This sets every player's points to zero. For end-of-week reset only. Cannot be undone.</p>
+        <div class="btn-row">
+            <button class="btn btn-red" onclick="doReset()">Yes, Reset Everything</button>
+            <button class="btn btn-accent" onclick="hideResetConfirm()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+    const TEAM_CLASS = {
+        'The Kangaroos': 'tc-kangaroos', 'The Koalas': 'tc-koalas',
+        'The Flying Foxes': 'tc-flyingfoxes', 'The Dingoes': 'tc-dingoes',
+        'The Sharks': 'tc-sharks', 'The Crocs': 'tc-crocs',
+    };
+    const STANDING_COLORS = {
+        'The Kangaroos': '#ffb347', 'The Koalas': '#b8a9ff',
+        'The Flying Foxes': '#64c8ff', 'The Dingoes': '#ff7b7b',
+        'The Sharks': '#5eeabc', 'The Crocs': '#ffd966',
+    };
+    const TEAM_EMOJI = {
+        'The Kangaroos': '🦘', 'The Koalas': '🐨',
+        'The Flying Foxes': '🦇', 'The Dingoes': '🐺',
+        'The Sharks': '🦈', 'The Crocs': '🐊',
+    };
+
+    function getPassword() { return document.getElementById('passwordInput').value; }
+
+    function showToast(msg, type = 'success') {
+        const c = document.getElementById('toastContainer');
+        const t = document.createElement('div');
+        t.className = `toast toast-${type}`;
+        t.textContent = msg;
+        c.appendChild(t);
+        setTimeout(() => t.remove(), 3000);
+    }
+
+    function showResult(elemId, html) {
+        const el = document.getElementById(elemId);
+        el.innerHTML = html;
+        el.classList.add('visible');
+    }
+
+    async function apiCall(url, options = {}) {
+        const pw = getPassword();
+        const headers = { 'X-Admin-Password': pw, ...(options.headers || {}) };
+        try {
+            const res = await fetch(url, { ...options, headers });
+            const data = await res.json();
+            const pwStatus = document.getElementById('pwStatus');
+            if (res.status === 403) {
+                pwStatus.className = 'pw-status fail';
+                pwStatus.textContent = '✗ Wrong';
+                showToast('Wrong password', 'error');
+                return null;
+            }
+            pwStatus.className = 'pw-status ok';
+            pwStatus.textContent = '✓';
+            if (!res.ok) {
+                showToast(data.error || 'Server error', 'error');
+                return null;
+            }
+            return data;
+        } catch (e) {
+            showToast('Connection error', 'error');
+            return null;
+        }
+    }
+
+    // ══════════════════════════════════════════════════════════
+    // PRIMARY: Per-Person Tally
+    // ══════════════════════════════════════════════════════════
+
+    function renderTally(data) {
+        const container = document.getElementById('tallyContainer');
+        container.innerHTML = data.teams.map(team => {
+            const colorClass = TEAM_CLASS[team.name] || '';
+            const membersHtml = team.members.map(m => `
+                <div class="member-row ${colorClass}">
+                    <span class="member-name">${m.name}</span>
+                    <span class="member-pts" id="pts-${css(m.name)}">${m.points}</span>
+                    <button class="plus-btn" onclick="addOne('${esc(m.name)}', this)" title="+1 to ${m.name}">+</button>
+                </div>
+            `).join('');
+
+            return `
+                <div class="team-section ${colorClass}">
+                    <div class="team-header" onclick="toggleTeam(this)">
+                        <span class="emoji">${team.emoji}</span>
+                        <span class="name">${team.name}</span>
+                        <button class="add-member-btn" onclick="event.stopPropagation(); showAddMember('${esc(team.name)}', this)">+ Add Member</button>
+                        <span class="total" id="team-total-${css(team.name)}">${team.total} pts</span>
+                        <span class="toggle open">▼</span>
+                    </div>
+                    <div id="add-form-${css(team.name)}" style="display:none"></div>
+                    <div class="collapsible-content team-members" id="members-${css(team.name)}">
+                        ${membersHtml}
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function css(s) { return s.replace(/[^a-zA-Z0-9]/g, '_'); }
+    function esc(s) { return s.replace(/'/g, "\\'"); }
+
+    function toggleTeam(header) {
+        const toggle = header.querySelector('.toggle');
+        const section = header.closest('.team-section');
+        const content = section.querySelector('.team-members');
+        toggle.classList.toggle('open');
+        content.classList.toggle('collapsed');
+    }
+
+    function showAddMember(teamName, btn) {
+        const formDiv = document.getElementById('add-form-' + css(teamName));
+        if (formDiv.style.display !== 'none') {
+            formDiv.style.display = 'none';
+            return;
+        }
+        formDiv.style.display = 'block';
+        formDiv.innerHTML = `
+            <div class="add-member-form">
+                <input type="text" id="new-member-input-${css(teamName)}" placeholder="Enter name" autofocus
+                    onkeydown="if(event.key==='Enter') submitAddMember('${esc(teamName)}')">
+                <button class="submit-btn" onclick="submitAddMember('${esc(teamName)}')">Add</button>
+                <button class="cancel-btn" onclick="document.getElementById('add-form-${css(teamName)}').style.display='none'">✕</button>
+            </div>
+        `;
+        formDiv.querySelector('input').focus();
+    }
+
+    async function submitAddMember(teamName) {
+        const inputId = 'new-member-input-' + css(teamName);
+        const input = document.getElementById(inputId);
+        const name = input.value.trim();
+        if (!name) return;
+
+        const data = await apiCall('/api/add_member', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, team: teamName })
+        });
+
+        if (data) {
+            showToast(`${data.name} added to ${data.team}`);
+            loadAll();
+        }
+    }
+
+    async function addOne(name, btn) {
+        // Immediate visual feedback
+        btn.classList.add('clicked');
+        const ptsEl = document.getElementById('pts-' + css(name));
+        if (ptsEl) {
+            const oldVal = parseInt(ptsEl.textContent);
+            ptsEl.textContent = oldVal + 1;
+        }
+
+        const data = await apiCall('/api/individual', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name })
+        });
+
+        setTimeout(() => btn.classList.remove('clicked'), 300);
+
+        if (data) {
+            // Update the team total display
+            if (ptsEl) ptsEl.textContent = data.newTotal;
+            refreshTeamTotals();
+            refreshStandings();
+        } else {
+            // Revert on failure
+            if (ptsEl) ptsEl.textContent = parseInt(ptsEl.textContent) - 1;
+        }
+    }
+
+    function refreshTeamTotals() {
+        // Recalculate team totals from displayed member points
+        document.querySelectorAll('.team-section').forEach(section => {
+            const pts = section.querySelectorAll('.member-pts');
+            let total = 0;
+            pts.forEach(p => total += parseInt(p.textContent) || 0);
+            const totalEl = section.querySelector('.total');
+            if (totalEl) totalEl.textContent = total + ' pts';
+        });
+    }
+
+    // ══════════════════════════════════════════════════════════
+    // Team Bonus
+    // ══════════════════════════════════════════════════════════
+
+    function renderTeamGrid(data) {
+        const grid = document.getElementById('teamGrid');
+        grid.innerHTML = data.teams.map(t => `
+            <div class="team-card ${TEAM_CLASS[t.name] || ''}" onclick="doBonus('${esc(t.name)}')">
+                <span class="tc-emoji">${t.emoji}</span>
+                <div class="tc-info">
+                    <div class="tc-name" style="color:${STANDING_COLORS[t.name]}">${t.name}</div>
+                    <div class="tc-count">${t.members.length} members · ${t.total} pts</div>
+                </div>
+                <span class="tc-badge">+1 all</span>
+            </div>
+        `).join('');
+    }
+
+    async function doBonus(teamName) {
+        const data = await apiCall('/api/bonus', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ team: teamName })
+        });
+        if (data) {
+            let html = `<div class="success">✅ +1 to all ${data.membersUpdated} members of ${data.team}</div>`;
+            showResult('bonusResult', html);
+            showToast(`+1 to all ${data.team} members`);
+            loadAll();
+        }
+    }
+
+    // ══════════════════════════════════════════════════════════
+    // Publish / Reset
+    // ══════════════════════════════════════════════════════════
+
+    async function doPublish() {
+        const data = await apiCall('/api/publish', { method: 'POST' });
+        if (data) {
+            showResult('actionResult', `<div class="success">✅ ${data.message}</div>`);
+            showToast('Published!', 'success');
+        } else {
+            showResult('actionResult', `<div class="error">Failed to publish.</div>`);
+        }
+    }
+
+    function showResetConfirm() { document.getElementById('resetOverlay').classList.add('visible'); }
+    function hideResetConfirm() { document.getElementById('resetOverlay').classList.remove('visible'); }
+
+    async function doReset() {
+        hideResetConfirm();
+        const data = await apiCall('/api/reset', { method: 'POST' });
+        if (data) {
+            showResult('actionResult', `<div class="success">✅ ${data.message}</div>`);
+            showToast('All points reset', 'info');
+            loadAll();
+        }
+    }
+
+    // ══════════════════════════════════════════════════════════
+    // Upload (secondary/advanced)
+    // ══════════════════════════════════════════════════════════
+
+    const uploadZone = document.getElementById('uploadZone');
+    const fileInput = document.getElementById('fileInput');
+    const fileName = document.getElementById('fileName');
+    const uploadBtnWrap = document.getElementById('uploadBtnWrap');
+
+    ['dragenter', 'dragover'].forEach(e =>
+        uploadZone.addEventListener(e, ev => { ev.preventDefault(); uploadZone.classList.add('dragover'); })
+    );
+    ['dragleave', 'drop'].forEach(e =>
+        uploadZone.addEventListener(e, ev => { ev.preventDefault(); uploadZone.classList.remove('dragover'); })
+    );
+    uploadZone.addEventListener('drop', ev => {
+        if (ev.dataTransfer.files.length) { fileInput.files = ev.dataTransfer.files; onFileSelected(); }
+    });
+    fileInput.addEventListener('change', onFileSelected);
+
+    function onFileSelected() {
+        if (fileInput.files.length) {
+            fileName.textContent = '📎 ' + fileInput.files[0].name;
+            fileName.style.display = 'block';
+            uploadBtnWrap.style.display = 'block';
+        }
+    }
+
+    async function doUpload() {
+        const file = fileInput.files[0];
+        if (!file) return;
+        const btn = document.getElementById('uploadBtn');
+        btn.textContent = '⏳ Processing...';
+        const form = new FormData();
+        form.append('file', file);
+        const data = await apiCall('/api/upload', { method: 'POST', body: form });
+        btn.textContent = '📊 Tally & Add Points';
+        if (data) {
+            let html = `<div class="success">✅ ${data.filename} — ${data.totalPointsAdded} pts added (${data.changes.length} people, ${data.sectionsFound} sections)</div><br>`;
+            data.changes.forEach(c => {
+                html += `<div class="detail">${c.name}: ${c.oldTotal} → <strong>${c.newTotal}</strong> (+${c.added})</div>`;
+            });
+            showResult('uploadResult', html);
+            showToast(`Added ${data.totalPointsAdded} points`);
+            fileInput.value = '';
+            fileName.style.display = 'none';
+            uploadBtnWrap.style.display = 'none';
+            loadAll();
+        }
+    }
+
+    // ══════════════════════════════════════════════════════════
+    // Standings
+    // ══════════════════════════════════════════════════════════
+
+    function renderStandings(data) {
+        const grid = document.getElementById('standingsGrid');
+        const sorted = [...data.teams].sort((a, b) => b.total - a.total);
+        grid.innerHTML = sorted.map(t => `
+            <div class="standing-item">
+                <span class="st-emoji">${t.emoji}</span>
+                <span class="st-name" style="color:${STANDING_COLORS[t.name]}">${t.name}</span>
+                <span class="st-pts" style="color:${STANDING_COLORS[t.name]}">${t.total}<span> pts</span></span>
+            </div>
+        `).join('');
+    }
+
+    async function refreshStandings() {
+        const data = await fetch('/api/status').then(r => r.json());
+        renderStandings(data);
+    }
+
+    // ══════════════════════════════════════════════════════════
+    // Init
+    // ══════════════════════════════════════════════════════════
+
+    async function loadAll() {
+        const data = await fetch('/api/status').then(r => r.json());
+        renderTally(data);
+        renderTeamGrid(data);
+        renderStandings(data);
+    }
+
+    loadAll();
+</script>
+
+</body>
+</html>
