@@ -7,6 +7,7 @@ archive/
 output/
 __pycache__/
 .gemini/
+admin.html
 
 # Only these files are pushed for GitHub Pages:
 # index.html
