@@ -1,5 +1,5 @@
 const LEADERBOARD_DATA = {
-  "lastUpdated": "25 Mar 2026, 06:06 PM",
+  "lastUpdated": "25 Mar 2026, 06:14 PM",
   "teams": [
     {
       "name": "The Kangaroos",
