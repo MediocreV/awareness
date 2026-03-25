@@ -1,5 +1,5 @@
 const LEADERBOARD_DATA = {
-  "lastUpdated": "25 Mar 2026, 06:14 PM",
+  "lastUpdated": "25 Mar 2026, 09:32 AM",
   "teams": [
     {
       "name": "The Kangaroos",
@@ -218,6 +218,10 @@ const LEADERBOARD_DATA = {
           "points": 3
         },
         {
+          "name": "Nabin",
+          "points": 1
+        },
+        {
           "name": "Abhinandan",
           "points": 0
         },
@@ -239,10 +243,6 @@ const LEADERBOARD_DATA = {
         },
         {
           "name": "Mimi",
-          "points": 0
-        },
-        {
-          "name": "Nabin",
           "points": 0
         },
         {
