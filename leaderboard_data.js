@@ -1,5 +1,5 @@
 const LEADERBOARD_DATA = {
-  "lastUpdated": "03 Apr 2026, 05:33 AM",
+  "lastUpdated": "05 Apr 2026, 09:43 AM",
   "teams": [
     {
       "name": "The Kangaroos",
@@ -7,11 +7,15 @@ const LEADERBOARD_DATA = {
       "members": [
         {
           "name": "Vinit",
-          "points": 9
+          "points": 12
         },
         {
           "name": "Ankur",
-          "points": 6
+          "points": 8
+        },
+        {
+          "name": "Susan",
+          "points": 1
         },
         {
           "name": "Arturo",
@@ -46,10 +50,6 @@ const LEADERBOARD_DATA = {
           "points": 0
         },
         {
-          "name": "Susan",
-          "points": 0
-        },
-        {
           "name": "Vaibhav",
           "points": 0
         }
@@ -64,15 +64,19 @@ const LEADERBOARD_DATA = {
           "points": 6
         },
         {
+          "name": "Vasu",
+          "points": 4
+        },
+        {
           "name": "Gurasis",
           "points": 3
         },
         {
-          "name": "Manju",
-          "points": 1
+          "name": "Reshmi",
+          "points": 2
         },
         {
-          "name": "Reshmi",
+          "name": "Manju",
           "points": 1
         },
         {
@@ -102,10 +106,6 @@ const LEADERBOARD_DATA = {
         {
           "name": "Sonal",
           "points": 0
-        },
-        {
-          "name": "Vasu",
-          "points": 0
         }
       ]
     },
@@ -115,7 +115,7 @@ const LEADERBOARD_DATA = {
       "members": [
         {
           "name": "Orin",
-          "points": 5
+          "points": 9
         },
         {
           "name": "61 405 266 936",
@@ -165,14 +165,18 @@ const LEADERBOARD_DATA = {
       "members": [
         {
           "name": "Mahesh",
-          "points": 8
+          "points": 11
         },
         {
           "name": "Uday",
-          "points": 5
+          "points": 6
         },
         {
           "name": "Vennila",
+          "points": 5
+        },
+        {
+          "name": "Meena",
           "points": 3
         },
         {
@@ -196,10 +200,6 @@ const LEADERBOARD_DATA = {
           "points": 0
         },
         {
-          "name": "Meena",
-          "points": 0
-        },
-        {
           "name": "Ravi",
           "points": 0
         },
@@ -215,7 +215,11 @@ const LEADERBOARD_DATA = {
       "members": [
         {
           "name": "Lalit",
-          "points": 3
+          "points": 7
+        },
+        {
+          "name": "Gaurav",
+          "points": 1
         },
         {
           "name": "Abhinandan",
@@ -269,19 +273,19 @@ const LEADERBOARD_DATA = {
       "members": [
         {
           "name": "Viji",
-          "points": 8
+          "points": 12
         },
         {
           "name": "Haritha",
-          "points": 7
+          "points": 11
         },
         {
           "name": "Nala",
-          "points": 7
+          "points": 10
         },
         {
           "name": "Wini",
-          "points": 6
+          "points": 8
         },
         {
           "name": "Abhishek",
