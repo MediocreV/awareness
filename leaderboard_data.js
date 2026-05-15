@@ -1,5 +1,5 @@
 const LEADERBOARD_DATA = {
-  "lastUpdated": "15 May 2026, 04:43 AM",
+  "lastUpdated": "15 May 2026, 02:43 PM",
   "teams": [
     {
       "name": "The Kangaroos",
@@ -7,11 +7,11 @@ const LEADERBOARD_DATA = {
       "members": [
         {
           "name": "Vinit",
-          "points": 12
+          "points": 17
         },
         {
           "name": "Ankur",
-          "points": 8
+          "points": 13
         },
         {
           "name": "Susan",
@@ -60,12 +60,12 @@ const LEADERBOARD_DATA = {
       "emoji": "🐨",
       "members": [
         {
-          "name": "Sumit",
-          "points": 6
+          "name": "Vasu",
+          "points": 7
         },
         {
-          "name": "Vasu",
-          "points": 4
+          "name": "Sumit",
+          "points": 6
         },
         {
           "name": "Gurasis",
@@ -115,7 +115,11 @@ const LEADERBOARD_DATA = {
       "members": [
         {
           "name": "Orin",
-          "points": 9
+          "points": 10
+        },
+        {
+          "name": "Richaa",
+          "points": 1
         },
         {
           "name": "61 405 266 936",
@@ -152,10 +156,6 @@ const LEADERBOARD_DATA = {
         {
           "name": "Olivia",
           "points": 0
-        },
-        {
-          "name": "Richaa",
-          "points": 0
         }
       ]
     },
@@ -177,7 +177,7 @@ const LEADERBOARD_DATA = {
         },
         {
           "name": "Meena",
-          "points": 3
+          "points": 4
         },
         {
           "name": "Lakshmi",
@@ -218,6 +218,10 @@ const LEADERBOARD_DATA = {
           "points": 7
         },
         {
+          "name": "Dhanyasree",
+          "points": 2
+        },
+        {
           "name": "Gaurav",
           "points": 1
         },
@@ -227,10 +231,6 @@ const LEADERBOARD_DATA = {
         },
         {
           "name": "Ashish",
-          "points": 0
-        },
-        {
-          "name": "Dhanyasree",
           "points": 0
         },
         {
@@ -272,16 +272,16 @@ const LEADERBOARD_DATA = {
       "emoji": "🐊",
       "members": [
         {
+          "name": "Nala",
+          "points": 13
+        },
+        {
           "name": "Viji",
-          "points": 12
+          "points": 13
         },
         {
           "name": "Haritha",
           "points": 11
-        },
-        {
-          "name": "Nala",
-          "points": 10
         },
         {
           "name": "Wini",
